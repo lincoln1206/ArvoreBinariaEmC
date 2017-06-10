@@ -22,9 +22,6 @@ typedef struct arvore {
 	struct arvore * dir;
 }node;
 
-void salvaArq(node * tree);
-void salvaItem(node *tree,FILE* file);
-
 //INSERIR
 void inserir(node ** tree, int val)
 {	
@@ -186,21 +183,6 @@ node* deletaNo(node **tree, int val)
 	return (*tree);
 }
 
-//Carrega dados do arquivo
-node *carregaArquivo (node *no){
-    FILE *arq;
-    int val;
-    arq=fopen("arquivo.bin", "rb");
-    if(arq!=NULL){
-        while(!feof(arq)){
-            fread(&val,sizeof(int),1,arq);
-        if(!feof(arq))
-            inserir(&no,val);
-        }
-    }
-            return no;
-}
-
 int menu();
 int opcao;
 
@@ -222,7 +204,6 @@ int main(){
 				printf("Digite um numero:");
 				scanf("%d",&n);
 				inserir(&raiz,n);
-				salvaArq(raiz);
 				break;
 				
 			case 2://REMOVER APENAS UM NÓ
@@ -285,29 +266,6 @@ int menu(){
 	return opcao;
 }
 
-void salvaArq(node ** tree)
-{
-  FILE* file;
-   if(fopen_s(&"arquivo.txt","a+")!=0)
-   {
-     puts("failure\n");
-   }
-   else
-   {
-    salvaItem(&(*tree),file);
-    fclose(file);
-   }
-  }
-
-void salvaItem(node **tree,FILE* file)
-{
-  if(tree != NULL)
-   {
-    fprintf(file,"%d\n",*tree->data.numero);
-    salvaItem(&(*tree->esq),file);
-	salvaItem(&(*tree->dir),file);
-   }
-}
 
 
 
